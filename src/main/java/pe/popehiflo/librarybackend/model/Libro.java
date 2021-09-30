@@ -3,6 +3,7 @@ package pe.popehiflo.librarybackend.model;
 import java.io.Serializable;
 
 import javax.persistence.Entity;
+import javax.persistence.ForeignKey;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
@@ -23,7 +24,7 @@ public class Libro implements Serializable {
 	private String nombreAutor;
 	private String texto;
 	@ManyToOne
-	@JoinColumn(name = "categoria_id")
+	@JoinColumn(name = "categoria_id", foreignKey = @ForeignKey(name = "fk_categoria_id"))
 	private Categoria categoria;
 
 	public Libro() {
