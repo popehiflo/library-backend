@@ -11,6 +11,8 @@ import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
 import javax.persistence.Table;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
+
 @Entity
 @Table(name = "libros")
 public class Libro implements Serializable {
@@ -23,6 +25,8 @@ public class Libro implements Serializable {
 	private String titulo;
 	private String nombreAutor;
 	private String texto;
+	
+	@JsonIgnore
 	@ManyToOne
 	@JoinColumn(name = "categoria_id", foreignKey = @ForeignKey(name = "fk_categoria_id"))
 	private Categoria categoria;
