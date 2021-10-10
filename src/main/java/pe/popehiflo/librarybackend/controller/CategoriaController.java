@@ -53,15 +53,15 @@ public class CategoriaController {
 	@PostMapping(value = "")
 	public ResponseEntity<Categoria> create(@RequestBody Categoria objCategoria) {
 		objCategoria = service.create(objCategoria);
-		// URL de acceso a la nueva clase/objeto creado
+		/* URL de acceso a la nueva clase/objeto creado
+		 * el URL aparecera en los HEADERS exactamente en LOCATION */
 		URI uri = ServletUriComponentsBuilder.fromCurrentRequest().path("/{id}").buildAndExpand(objCategoria.getId()).toUri();
 		
-		// retornar el obejto creado en el body del request
+		/* retornar el obejto creado en el body del request */
 		//return ResponseEntity.created(uri).body(objCategoria);
 		
 		/* NO retornar el objeto creado en el body del request
-		 * porque con build no se construye el body
-		 */
+		 * porque con build no se construye el body */
 		return ResponseEntity.created(uri).build();
 	}
 }
