@@ -9,6 +9,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
@@ -50,6 +51,11 @@ public class CategoriaController {
 		return ResponseEntity.ok().body(listDTO);
 	}
 	
+	/**
+	 * POST create Categoria
+	 * @param objCategoria objeto enviado en la request
+	 * @return nada, no construye el body
+	 */
 	@PostMapping(value = "")
 	public ResponseEntity<Categoria> create(@RequestBody Categoria objCategoria) {
 		objCategoria = service.create(objCategoria);
@@ -64,4 +70,12 @@ public class CategoriaController {
 		 * porque con build no se construye el body */
 		return ResponseEntity.created(uri).build();
 	}
+	
+	@PutMapping(value = "/{id}")
+	public ResponseEntity<CategoriaDTO> update(@PathVariable("id") Integer id, @RequestBody CategoriaDTO objCategoriaDto) {
+		Categoria newObj = service.update(id, objCategoriaDto);
+		return ResponseEntity.ok().body(new CategoriaDTO(newObj));
+	}
+	
+	
 }

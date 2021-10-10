@@ -6,6 +6,7 @@ import java.util.Optional;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import pe.popehiflo.librarybackend.dto.CategoriaDTO;
 import pe.popehiflo.librarybackend.model.Categoria;
 import pe.popehiflo.librarybackend.repository.CategoriaRepository;
 import pe.popehiflo.librarybackend.service.exceptions.ObjectNotFoundException;
@@ -32,5 +33,12 @@ public class CategoriaService {
 	public Categoria create(Categoria objCategoria) {
 		objCategoria.setId(null);
 		return repository.save(objCategoria);
+	}
+	
+	public Categoria update(Integer id, CategoriaDTO objCategoriaDto) {
+		Categoria obj = findById(id);
+		obj.setNombre(objCategoriaDto.getNombre());
+		obj.setDescripcion(objCategoriaDto.getDescripcion());
+		return repository.save(obj);
 	}
 }
