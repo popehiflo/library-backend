@@ -2,15 +2,15 @@ package pe.popehiflo.librarybackend.controller.exceptions;
 
 public class StandardError {
 	
-	/*
+	/**
 	 * Momento en que ocurre la exception
 	 */
 	private Long timestamp;
-	/*
+	/**
 	 * HTTP status 401, 404
 	 */
 	private Integer status;
-	/*
+	/**
 	 * mensaje error
 	 */
 	private String error;
