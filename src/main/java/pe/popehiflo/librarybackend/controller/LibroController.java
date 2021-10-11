@@ -2,12 +2,14 @@ package pe.popehiflo.librarybackend.controller;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
+
+import pe.popehiflo.librarybackend.dto.LibroDTO;
 import pe.popehiflo.librarybackend.model.Libro;
 import pe.popehiflo.librarybackend.service.LibroService;
+
+import java.util.List;
+import java.util.stream.Collectors;
 
 @RestController
 @RequestMapping(value = "libros")
@@ -25,5 +27,19 @@ public class LibroController {
     public ResponseEntity<Libro> findById(@PathVariable("id") Integer id) {
         Libro libro = service.findById(id);
         return ResponseEntity.ok().body(libro);
+    }
+
+    /**
+     * localhost:8080/libros?categoria=1
+     * GET Libros que pertenecen a una Categoria determinada por id
+     * @param idCategoria, id de la Categoria de la quieres los Libros
+     * @return lista de LIBROS (id,titulo) que tiene relacion con la Categoria
+     */
+    @GetMapping(value = "")
+    public ResponseEntity<List<LibroDTO>> findAll(@RequestParam(value = "categoria", defaultValue = "0") Integer idCategoria) {
+        List<Libro> list = service.findAll(idCategoria);
+        List<LibroDTO> listDTO = list.stream().map(
+                libro -> new LibroDTO(libro)).collect(Collectors.toList());
+        return ResponseEntity.ok().body(listDTO);
     }
 }
