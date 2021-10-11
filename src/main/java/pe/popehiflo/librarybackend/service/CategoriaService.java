@@ -9,6 +9,7 @@ import org.springframework.stereotype.Service;
 import pe.popehiflo.librarybackend.dto.CategoriaDTO;
 import pe.popehiflo.librarybackend.model.Categoria;
 import pe.popehiflo.librarybackend.repository.CategoriaRepository;
+import pe.popehiflo.librarybackend.service.exceptions.DataIntegrityViolationException;
 import pe.popehiflo.librarybackend.service.exceptions.ObjectNotFoundException;
 
 @Service
@@ -44,6 +45,10 @@ public class CategoriaService {
 	
 	public void delete(Integer id) {
 		findById(id);
-		repository.deleteById(id);
+		try {
+			repository.deleteById(id);
+		} catch (org.springframework.dao.DataIntegrityViolationException e) {
+			throw new DataIntegrityViolationException("Esta Categoria no puede ser borrada! Posee Libros asociados");
+		}
 	}
 }
