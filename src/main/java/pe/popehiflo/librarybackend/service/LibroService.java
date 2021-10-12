@@ -2,6 +2,7 @@ package pe.popehiflo.librarybackend.service;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+
 import pe.popehiflo.librarybackend.model.Libro;
 import pe.popehiflo.librarybackend.repository.LibroRepository;
 import pe.popehiflo.librarybackend.service.exceptions.ObjectNotFoundException;
@@ -37,5 +38,17 @@ public class LibroService {
     public List<Libro> findAll(Integer idCategoria) {
         categoriaService.findById(idCategoria);
         return repository.findAllByCategoria(idCategoria);
+    }
+
+    public Libro update(Integer id, Libro newLibro) {
+        Libro oldLibro = findById(id);
+        updateData(oldLibro, newLibro);
+        return  repository.save(oldLibro);
+    }
+
+    private void updateData(Libro oldLibro, Libro newLibro) {
+        oldLibro.setTitulo(newLibro.getTitulo());
+        oldLibro.setNombreAutor(newLibro.getNombreAutor());
+        oldLibro.setTexto(newLibro.getTexto());
     }
 }

@@ -42,4 +42,28 @@ public class LibroController {
                 libro -> new LibroDTO(libro)).collect(Collectors.toList());
         return ResponseEntity.ok().body(listDTO);
     }
+
+    /**
+     * PUT update, actualizar todos los valores del objeto Libro
+     * @param id
+     * @param newLibro
+     * @return Libro actualizado
+     */
+    @PutMapping(value = "/{id}")
+    public ResponseEntity<Libro> update(@PathVariable("id") Integer id, @RequestBody Libro newLibro) {
+        Libro updatedLibro = service.update(id, newLibro);
+        return ResponseEntity.ok().body(updatedLibro);
+    }
+
+    /**
+     * PATCH updatePatch, actualizar un valor del objeto Libro
+     * @param id
+     * @param newLibro
+     * @return Libro actualizado
+     */
+    @PatchMapping(value = "/{id}")
+    public ResponseEntity<Libro> updatePatch(@PathVariable("id") Integer id, @RequestBody Libro newLibro) {
+        Libro updatedLibro = service.update(id, newLibro);
+        return ResponseEntity.ok().body(updatedLibro);
+    }
 }
