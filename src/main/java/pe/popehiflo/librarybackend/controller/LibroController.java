@@ -4,10 +4,12 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
+import org.springframework.web.servlet.support.ServletUriComponentsBuilder;
 import pe.popehiflo.librarybackend.dto.LibroDTO;
 import pe.popehiflo.librarybackend.model.Libro;
 import pe.popehiflo.librarybackend.service.LibroService;
 
+import java.net.URI;
 import java.util.List;
 import java.util.stream.Collectors;
 
@@ -41,6 +43,15 @@ public class LibroController {
         List<LibroDTO> listDTO = list.stream().map(
                 libro -> new LibroDTO(libro)).collect(Collectors.toList());
         return ResponseEntity.ok().body(listDTO);
+    }
+
+    @PostMapping
+    public ResponseEntity<Libro> create(@RequestParam(value = "categoria", defaultValue = "0") Integer idCategoria, @RequestBody Libro objLibro) {
+        Libro newLibro = service.create(idCategoria, objLibro);
+        /* URL de acceso a la nueva clase/objeto creado
+         * el URL aparecera en los HEADERS exactamente en LOCATION */
+        URI uri = ServletUriComponentsBuilder.fromCurrentContextPath().path("/libros/{id}").buildAndExpand(newLibro.getId()).toUri();
+        return ResponseEntity.created(uri).build();
     }
 
     /**
