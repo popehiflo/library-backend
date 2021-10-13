@@ -45,8 +45,15 @@ public class LibroController {
         return ResponseEntity.ok().body(listDTO);
     }
 
+    /**
+     * POST create, crea un Libro con la Categoria a la pertenece
+     * @param idCategoria - Categoria la que pertenecera el Libro
+     * @param objLibro - Objeto Libro con datos a persistir
+     * @return no retorna body
+     */
     @PostMapping
-    public ResponseEntity<Libro> create(@RequestParam(value = "categoria", defaultValue = "0") Integer idCategoria, @RequestBody Libro objLibro) {
+    public ResponseEntity<Libro> create(@RequestParam(value = "categoria", defaultValue = "0") Integer idCategoria,
+                                        @RequestBody Libro objLibro) {
         Libro newLibro = service.create(idCategoria, objLibro);
         /* URL de acceso a la nueva clase/objeto creado
          * el URL aparecera en los HEADERS exactamente en LOCATION */
@@ -77,4 +84,5 @@ public class LibroController {
         Libro updatedLibro = service.update(id, newLibro);
         return ResponseEntity.ok().body(updatedLibro);
     }
+
 }
