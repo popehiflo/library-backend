@@ -60,4 +60,8 @@ public class LibroService {
         oldLibro.setTexto(newLibro.getTexto());
     }
 
+    public void delete(Integer id) {
+        Libro obj = findById(id);
+        repository.delete(obj);
+    }
 }
