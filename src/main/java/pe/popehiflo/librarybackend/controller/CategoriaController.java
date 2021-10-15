@@ -6,14 +6,7 @@ import java.util.stream.Collectors;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.DeleteMapping;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.PutMapping;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.support.ServletUriComponentsBuilder;
 
 import pe.popehiflo.librarybackend.dto.CategoriaDTO;
@@ -22,6 +15,7 @@ import pe.popehiflo.librarybackend.service.CategoriaService;
 
 import javax.validation.Valid;
 
+@CrossOrigin(origins = "*")
 @RestController
 @RequestMapping(value = "categorias")
 public class CategoriaController {
@@ -31,11 +25,11 @@ public class CategoriaController {
 	
 	/**
 	 * GET Categoria por id
-	 * @param id
+	 * @param id - id de la Categoría a encontrar
 	 * @return objeto Categoria con su lista de Libros
 	 */
 	@GetMapping(value = "/{id}")
-	public ResponseEntity<Categoria> findById(@PathVariable("id") Integer id) {
+	public ResponseEntity<Categoria> findById(@PathVariable Integer id) {
 		Categoria categoria = service.findById(id);
 		return ResponseEntity.ok().body(categoria);
 	}
@@ -66,8 +60,8 @@ public class CategoriaController {
 		 * el URL aparecera en los HEADERS exactamente en LOCATION */
 		URI uri = ServletUriComponentsBuilder.fromCurrentRequest().path("/{id}").buildAndExpand(objCategoria.getId()).toUri();
 		
-		/* retornar el obejto creado en el body del request */
-		//return ResponseEntity.created(uri).body(objCategoria);
+		/* retornar el objeto creado en el body del request */
+		/* return ResponseEntity.created(uri).body(objCategoria); */
 		
 		/* NO retornar el objeto creado en el body del request
 		 * porque con build no se construye el body */
@@ -75,13 +69,18 @@ public class CategoriaController {
 	}
 	
 	@PutMapping(value = "/{id}")
-	public ResponseEntity<CategoriaDTO> update(@PathVariable("id") Integer id, @Valid @RequestBody CategoriaDTO objCategoriaDto) {
+	public ResponseEntity<CategoriaDTO> update(@PathVariable Integer id, @Valid @RequestBody CategoriaDTO objCategoriaDto) {
 		Categoria newObj = service.update(id, objCategoriaDto);
 		return ResponseEntity.ok().body(new CategoriaDTO(newObj));
 	}
-	
+
+	/**
+	 * DEL delete Categoría
+	 * @param id - id de la Categoría a eliminar
+	 * @return nada, no construye el body (no content)
+	 */
 	@DeleteMapping(value = "/{id}")
-	public ResponseEntity<Void> delete(@PathVariable("id") Integer id) {
+	public ResponseEntity<Void> delete(@PathVariable Integer id) {
 		service.delete(id);
 		return ResponseEntity.noContent().build();
 	}
