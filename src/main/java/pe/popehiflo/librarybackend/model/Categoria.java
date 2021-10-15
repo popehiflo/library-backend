@@ -1,5 +1,7 @@
 package pe.popehiflo.librarybackend.model;
 
+import org.hibernate.validator.constraints.Length;
+
 import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.List;
@@ -11,6 +13,7 @@ import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.OneToMany;
 import javax.persistence.Table;
+import javax.validation.constraints.NotEmpty;
 
 @Entity
 @Table(name = "categorias")
@@ -21,7 +24,11 @@ public class Categoria implements Serializable {
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	private Integer id;
+	@NotEmpty(message = "Campo NOMBRE es requerido")
+	@Length(min = 3, max = 100, message = "Campo NOMBRE debe tener entre 3 y 100 caracteres")
 	private String nombre;
+	@NotEmpty(message = "Campo DESCRIPCION es requerido")
+	@Length(min = 3, max = 200, message = "Campo DESCRIPCION debe tener entre 3 y 200 caracteres")
 	private String descripcion;
 	@OneToMany(mappedBy = "categoria", fetch = FetchType.LAZY)
 	private List<Libro> libros = new ArrayList<>();

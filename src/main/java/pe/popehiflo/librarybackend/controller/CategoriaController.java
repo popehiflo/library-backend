@@ -20,6 +20,8 @@ import pe.popehiflo.librarybackend.dto.CategoriaDTO;
 import pe.popehiflo.librarybackend.model.Categoria;
 import pe.popehiflo.librarybackend.service.CategoriaService;
 
+import javax.validation.Valid;
+
 @RestController
 @RequestMapping(value = "categorias")
 public class CategoriaController {
@@ -58,7 +60,7 @@ public class CategoriaController {
 	 * @return nada, no construye el body
 	 */
 	@PostMapping(value = "")
-	public ResponseEntity<Categoria> create(@RequestBody Categoria objCategoria) {
+	public ResponseEntity<Categoria> create(@Valid @RequestBody Categoria objCategoria) {
 		objCategoria = service.create(objCategoria);
 		/* URL de acceso a la nueva clase/objeto creado
 		 * el URL aparecera en los HEADERS exactamente en LOCATION */
@@ -73,7 +75,7 @@ public class CategoriaController {
 	}
 	
 	@PutMapping(value = "/{id}")
-	public ResponseEntity<CategoriaDTO> update(@PathVariable("id") Integer id, @RequestBody CategoriaDTO objCategoriaDto) {
+	public ResponseEntity<CategoriaDTO> update(@PathVariable("id") Integer id, @Valid @RequestBody CategoriaDTO objCategoriaDto) {
 		Categoria newObj = service.update(id, objCategoriaDto);
 		return ResponseEntity.ok().body(new CategoriaDTO(newObj));
 	}
