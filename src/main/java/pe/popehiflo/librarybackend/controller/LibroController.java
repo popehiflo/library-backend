@@ -9,6 +9,7 @@ import pe.popehiflo.librarybackend.dto.LibroDTO;
 import pe.popehiflo.librarybackend.model.Libro;
 import pe.popehiflo.librarybackend.service.LibroService;
 
+import javax.validation.Valid;
 import java.net.URI;
 import java.util.List;
 import java.util.stream.Collectors;
@@ -53,7 +54,7 @@ public class LibroController {
      */
     @PostMapping
     public ResponseEntity<Libro> create(@RequestParam(value = "categoria", defaultValue = "0") Integer idCategoria,
-                                        @RequestBody Libro objLibro) {
+                                        @Valid @RequestBody Libro objLibro) {
         Libro newLibro = service.create(idCategoria, objLibro);
         /* URL de acceso a la nueva clase/objeto creado
          * el URL aparecera en los HEADERS exactamente en LOCATION */
@@ -68,7 +69,7 @@ public class LibroController {
      * @return Libro actualizado
      */
     @PutMapping(value = "/{id}")
-    public ResponseEntity<Libro> update(@PathVariable("id") Integer id, @RequestBody Libro newLibro) {
+    public ResponseEntity<Libro> update(@PathVariable("id") Integer id, @Valid @RequestBody Libro newLibro) {
         Libro updatedLibro = service.update(id, newLibro);
         return ResponseEntity.ok().body(updatedLibro);
     }
@@ -80,7 +81,7 @@ public class LibroController {
      * @return Libro actualizado
      */
     @PatchMapping(value = "/{id}")
-    public ResponseEntity<Libro> updatePatch(@PathVariable("id") Integer id, @RequestBody Libro newLibro) {
+    public ResponseEntity<Libro> updatePatch(@Valid @PathVariable("id") Integer id, @Valid @RequestBody Libro newLibro) {
         Libro updatedLibro = service.update(id, newLibro);
         return ResponseEntity.ok().body(updatedLibro);
     }
